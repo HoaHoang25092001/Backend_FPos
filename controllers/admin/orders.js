@@ -47,7 +47,7 @@ module.exports.changeStatusOfOrder = async (req, res) => {
                 message : "status or order Id is missing"
             })
         }
-        if(!["delivered","pending","shipped"].includes(status)){
+        if(!["submitted","pending","paid"].includes(status)){
             return res.json({
                 success : false,
                 message : "wrong status"
@@ -57,10 +57,10 @@ module.exports.changeStatusOfOrder = async (req, res) => {
         var today = await this.getCurrentDate()
         
         var statusUpdate;
-        if(status == "shipped"){
+        if(status == "paid"){
             statusUpdate = await ordersModel.findOneAndUpdate({_id : orderId},{status : status, shippedOn : today}, {new : true})
         }
-        else if(status == "delivered"){
+        else if(status == "submitted"){
             statusUpdate = await ordersModel.findOneAndUpdate({_id : orderId},{status : status, deliveredOn : today}, {new : true})
         }
         else{
