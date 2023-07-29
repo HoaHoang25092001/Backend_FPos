@@ -75,26 +75,30 @@ module.exports.register = async (req, res) => {
 
 module.exports.updateUser = async (req, res) => {
   try {
-
-    const userDataToBeUpdated = req.body;
     const { id } = req.query;
-    const user = await userModel.findOne({ _id: id });
+    const { payment } = req.body;
 
-    if (!user) return res.send("user does not exist");
-
-    let updatedUser = await userModel.findOneAndUpdate(
+    const user = await userModel.findOneAndUpdate(
       { _id: id },
-      userDataToBeUpdated,
+      { payment: payment },
       { new: true }
     );
 
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User does not exist" });
+    }
+
     return res.json({
       success: true,
-      message: "user updated successfully",
-      data: updatedUser,
+      message: "User payment updated successfully",
+      data: user,
     });
   } catch (error) {
-    return res.send("error : ", error.message);
+    return res
+      .status(500)
+      .json({ success: false, message: "Error: " + error.message });
   }
 };
 
