@@ -94,8 +94,8 @@ app.get("/paypal", (req, res) => {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: "https://fpos-fpt.vercel.app/success",
-      cancel_url: "https://fpos-fpt.vercel.app/cancel",
+      return_url: "https://backend-f-pos-47uy.vercel.app/success",
+      cancel_url: "https://backend-f-pos-47uy.vercel.app/cancel",
     },
     transactions: [
       {
@@ -104,7 +104,7 @@ app.get("/paypal", (req, res) => {
             {
               name: "item",
               sku: "item",
-              price: "5.00",
+              price: "2.50",
               currency: "USD",
               quantity: 1,
             },
@@ -112,7 +112,7 @@ app.get("/paypal", (req, res) => {
         },
         amount: {
           currency: "USD",
-          total: "5.00",
+          total: "2.50",
         },
         description: "This is the payment description.",
       },
@@ -140,7 +140,7 @@ app.get("/success", (req, res) => {
       {
         amount: {
           currency: "USD",
-          total: "5.00",
+          total: "2.50",
         },
       },
     ],
@@ -167,7 +167,7 @@ app.get("/success", (req, res) => {
 });
 
 app.get("/cancel", (req, res) => {
-  res.render("cancel");
+  res.send("<h1>UnSuccessfully</h1>");
 });
 
 // AUTH
